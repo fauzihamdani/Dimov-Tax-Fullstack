@@ -10,7 +10,7 @@ export default async function DashboardPage(){
     .from("projects")
     .select("*, team_members(id, name, email)")
     .eq("is_deleted", false)
-    .order("name")
+    .order("created_at", {ascending:false});
 
   const {data: team_members} = await supabase
     .from("team_members")

@@ -28,10 +28,11 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 export async function DELETE(req:NextRequest, {params} : {params: {id:string}}){
+    const { id } = await params;
     const {error} = await supabase
         .from("projects")
         .update({is_deleted:true})
-        .eq("id", params.id)
+        .eq("id", id)
     
     if (error) return NextResponse.json({error:error.message}, {status:500});
     return NextResponse.json({success:true});
