@@ -7,6 +7,7 @@ import { TeamMember } from "@/types/team-member";
 import ProjectTable from "./ProjectTable";
 import ProjectModal from "./ProjectModal";
 import { MIN_PAGE_SIZE, MAX_PAGE_SIZE } from "@/lib/constans";
+import { createClient } from "@/lib/supabase/client";
 
 interface Props {
   projects: Project[];
@@ -79,8 +80,7 @@ export default function DashboardClient({
     if (!isPending) setIsSearching(false);
   },[isPending, search])
 
-
-
+  //save handler
   const handleSave = async (data: {
     name: string;
     status: ProjectStatus;
@@ -111,19 +111,35 @@ export default function DashboardClient({
     (_, i) => MIN_PAGE_SIZE + i * 10
   );
 
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh()
+  }
+
   return (
     <main className="max-w-8xl px-11 py-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-black dark:text-white">Project List</h2>
-        <button
-          onClick={() => {
-            setEditing(null);
-            setModalOpen(true);
-          }}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          + Add Project
-        </button>
+        <div className="flex gap-2">
+            <button
+            onClick={() => {
+                setEditing(null);
+                setModalOpen(true);
+            }}
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+            >
+            + Add Project
+            </button>
+            <button
+                onClick={handleLogout}
+                className="border px-4 py-2 rounded text-black dark:text-white dark:border-neutral-700"
+            >
+                Logout
+            </button>
+        </div>
+        
       </div>
 
       {/* Filter */}
