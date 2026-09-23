@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { getProjects } from "@/lib/projects";
 
-export async function GET(){
-    const {data, error} = await supabase
-        .from("projects")
-        .select("*, team_members(id, name, email)")
-        .eq("is_deleted", false)
-        .order("created_at", {ascending:false});
 
-        if(error) return NextResponse.json({error:error.message}, {status:500});
-        return NextResponse.json(data)
+export async function GET(req: NextRequest) {
+  const q = Object.fromEntries(req.nextUrl.searchParams);
+  const { data, total, page, pageSize, error } = await getProjects(q);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ data, total, page, pageSize });
 }
 
 export async function POST(req: NextRequest) {

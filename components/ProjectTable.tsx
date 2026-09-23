@@ -25,7 +25,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }: Props) {
           </tr>
         </thead>
         <tbody>
-          {projects.map((p) => (
+          {(projects ?? []).map((p) => (
             <tr key={p.id} className="border-t border-gray-200 dark:border-neutral-700">
               <td className="px-4 py-2 text-black dark:text-white">{p.name}</td>
               <td className="px-4 py-2 capitalize text-black dark:text-white">{p.status}</td>
@@ -38,7 +38,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }: Props) {
               </td>
             </tr>
           ))}
-          {projects.length === 0 && (
+          {(projects ?? []).length === 0 && (
             <tr>
               <td colSpan={6} className="text-center py-6 text-gray-400">
                 Belum ada project

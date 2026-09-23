@@ -1,27 +1,29 @@
-import { supabase } from "@/lib/supabase"
-import DashboardClient from "@/components/DashboardClient"
+import { supabase } from "@/lib/supabase";
+import { getProjects, ProjectQuery } from "@/lib/projects";
+import DashboardClient from "@/components/DashboardClient";
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
 
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<ProjectQuery>;
+}) {
+  const q = await searchParams;
 
-export default async function DashboardPage(){
+  const [{ data: projects, total, page, pageSize }, { data: teamMembers }] =
+    await Promise.all([
+      getProjects(q),
+      supabase.from("team_members").select("*").order("name"),
+    ]);
 
-  const {data: projects} = await supabase
-    .from("projects")
-    .select("*, team_members(id, name, email)")
-    .eq("is_deleted", false)
-    .order("created_at", {ascending:false});
-
-  const {data: team_members} = await supabase
-    .from("team_members")
-    .select("*")
-    .order("name")
-
-  return(
-    <DashboardClient 
-      initialProjects={projects ?? []} 
-      teamMembers={team_members ?? []} 
+  return (
+    <DashboardClient
+      projects={projects}
+      teamMembers={teamMembers ?? []}
+      total={total}
+      page={page}
+      pageSize={pageSize}
     />
-  )
-  
+  );
 }
