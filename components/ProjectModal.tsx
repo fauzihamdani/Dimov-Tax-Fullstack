@@ -14,6 +14,7 @@ interface Props {
     deadline: string;
     assigned_to: string;
     budget: number;
+    description: string;
   }) => void;
   initialData?: Project | null;
   teamMembers: TeamMember[];
@@ -25,28 +26,38 @@ export default function ProjectModal({ isOpen, onClose, onSave, initialData, tea
   const [deadline, setDeadline] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [budget, setBudget] = useState("");
+  const [description, setDescription] = useState("");
 
-  useEffect(() => {
+  const [saving, setSaving] = useState(false);
+
+    useEffect(() => {
     if (initialData) {
       setName(initialData.name);
       setStatus(initialData.status);
       setDeadline(initialData.deadline?.split("T")[0] ?? "");
       setAssignedTo(initialData.assigned_to);
       setBudget(String(initialData.budget));
+      setDescription(initialData.description ?? "");
     } else {
       setName("");
       setStatus("active");
       setDeadline("");
       setAssignedTo(teamMembers[0]?.id ?? "");
       setBudget("");
+      setDescription("");
     }
   }, [initialData, isOpen, teamMembers]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ name, status, deadline, assigned_to: assignedTo, budget: Number(budget) });
+    setSaving(true);
+    try {
+        await onSave({ name, status, deadline, assigned_to: assignedTo, budget: Number(budget), description });
+    } finally {
+        setSaving(false);
+    }
   };
 
   return (
@@ -98,12 +109,26 @@ export default function ProjectModal({ isOpen, onClose, onSave, initialData, tea
             onChange={(e) => setBudget(e.target.value)}
             required
           />
+          <textarea
+            className="w-full border rounded px-3 py-2 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
+          />
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={onClose} className="px-4 py-2 rounded border text-black dark:text-white">
-              Cancel
+                Cancel
             </button>
-            <button type="submit" className="px-4 py-2 rounded bg-blue-600 text-white">
-              Save
+            <button
+                type="submit"
+                disabled={saving}
+                className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-50 flex items-center gap-2"
+            >
+                {saving && (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                )}
+                {saving ? "Saving..." : "Save"}
             </button>
           </div>
         </form>

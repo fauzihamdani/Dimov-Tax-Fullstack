@@ -35,13 +35,18 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = async () => {
-  await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${location.origin}/auth/callback`,
-    },
-  });
-};
+    console.log("Button clicked, origin:", location.origin);
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
+    console.log("OAuth response:", data, error);
+    alert(`OAuth response: data => ${data}` );
+    alert(`OAuth response: error => ${error}` );
+    // alert('test login !')
+  };
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-neutral-950 px-4">
