@@ -46,6 +46,7 @@ export async function getProjects(q: ProjectQuery) {
     .select("*, team_members(id, name, email)", { count: "exact" })
     .eq("is_deleted", false)
     .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
     .range(from, to);
 
   query = applyFilters(query, q);
@@ -59,7 +60,8 @@ export async function getAllProjects(q: Omit<ProjectQuery, "page" | "page_size">
     .from("projects")
     .select("*, team_members(id, name, email)")
     .eq("is_deleted", false)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: true });
 
   query = applyFilters(query, q);
 

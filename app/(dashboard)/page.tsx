@@ -16,7 +16,7 @@ export default async function DashboardPage({
     await Promise.all([
       getProjects(q),
       supabase.from("team_members").select("*").order("name"),
-      getProjectStats(q)
+      getProjectStats({})
     ]);
 
   return (

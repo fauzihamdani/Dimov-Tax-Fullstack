@@ -7,11 +7,10 @@ import { TeamMember } from "@/types/team-member";
 import ProjectTable from "./ProjectTable";
 import ProjectModal from "./ProjectModal";
 import { MIN_PAGE_SIZE, MAX_PAGE_SIZE } from "@/lib/constans";
-import { createClient } from "@/lib/supabase/client";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import ExcelJS from "exceljs";
-import { Download, ChevronDown, Plus, LogOut } from "lucide-react";
+import { Download, Plus,  } from "lucide-react";
 
 interface Props {
   projects: Project[];
@@ -71,7 +70,6 @@ const inputCls =
         setIsSearching(false);
         return;
     }
-    
     setIsSearching(true);
     const t = setTimeout(() => updateParams({ search: searchInput }), 400);
     return () => clearTimeout(t);
@@ -129,12 +127,7 @@ const inputCls =
     (_, i) => MIN_PAGE_SIZE + i * 10
   );
 
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/login");
-    router.refresh()
-  }
+
 
     const handleExportCSV = async () => {
         setExportLoading("csv");
@@ -288,18 +281,8 @@ const inputCls =
 
   return (
     <main className="max-w-8xl px-11 py-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-center items-center mb-6">
         <h2 className="text-2xl font-bold text-black dark:text-white">Project List</h2>
-        <div className="flex gap-2">
-            
-            <button
-                onClick={handleLogout}
-                className=" px-2.5 py-1 rounded-lg text-xs text-black dark:text-white dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 transition"
-            >
-                 <LogOut size={15} />
-            </button>
-        </div>
-        
     </div>
 
         {/* Filter */}
