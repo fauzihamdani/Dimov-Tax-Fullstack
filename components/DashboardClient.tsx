@@ -60,7 +60,7 @@ const inputCls =
     if (resetPage) params.delete("page");
     const qs = params.toString();
     startTransition(() => {
-        router.replace(qs ? `${pathname}?${qs}` : pathname);
+        router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     })
     
   };

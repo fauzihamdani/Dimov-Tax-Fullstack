@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { MIN_PAGE_SIZE, MAX_PAGE_SIZE, DEFAULT_PAGE_SIZE } from "@/lib/constans";
+import type { Project, ProjectStatus } from "@/types/project";
 
 export interface ProjectQuery {
   search?: string;
@@ -8,6 +9,17 @@ export interface ProjectQuery {
   deadline_month?: string;
   page?: string;
   page_size?: string;
+}
+
+export interface ProjectStats {
+  statusCounts: { status: ProjectStatus; count: number }[];
+  budgetByMember: { name: string; budget: number }[];
+  upcoming: {
+    id: string;
+    name: string;
+    deadline: string;
+    assignee: string;
+  }[];
 }
 
 function applyFilters(query: any, q: ProjectQuery) {
@@ -53,4 +65,41 @@ export async function getAllProjects(q: Omit<ProjectQuery, "page" | "page_size">
 
   const { data, error } = await query;
   return { data: data ?? [], error };
+}
+
+export async function getProjectStats(
+  q: Omit<ProjectQuery, "page" | "page_size">
+): Promise<ProjectStats> {
+  const { data } = await getAllProjects(q);
+  const projects = data as Project[];
+
+  const statuses: ProjectStatus[] = ["active", "on hold", "completed"];
+  const statusCounts = statuses.map((status) => ({
+    status,
+    count: projects.filter((p) => p.status === status).length,
+  }));
+
+  const budgetMap = new Map<string, number>();
+  for (const p of projects) {
+    const name = p.team_members?.name ?? "Unassigned";
+    budgetMap.set(name, (budgetMap.get(name) ?? 0) + Number(p.budget));
+  }
+  const budgetByMember = [...budgetMap]
+    .map(([name, budget]) => ({ name, budget }))
+    .sort((a, b) => b.budget - a.budget)
+    .slice(0, 8);
+
+  const serverLimit = new Date(Date.now() + 9 * 86_400_000).toISOString().slice(0, 10);
+  const upcoming = projects
+    .filter((p) => p.status !== "completed" && p.deadline.slice(0, 10) <= serverLimit)
+    .sort((a, b) => a.deadline.localeCompare(b.deadline))
+    .slice(0, 20)
+    .map((p) => ({
+      id: p.id,
+      name: p.name,
+      deadline: p.deadline.slice(0, 10),
+      assignee: p.team_members?.name ?? "Unassigned",
+    }));
+
+  return { statusCounts, budgetByMember, upcoming };
 }
