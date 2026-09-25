@@ -8,13 +8,13 @@ import {
 import type { ProjectStats } from "@/lib/projects";
 
 const COLORS: Record<string, string> = {
-  active: "#16a34a",
-  "on hold": "#f59e0b",
-  completed: "#2563eb",
+  active: "#2563eb",
+  "on hold": "#f1160e",
+  completed: "#16a34a",
 };
 
 const card =
-  "rounded-xl border bg-white dark:bg-neutral-900 dark:border-neutral-700 p-4 shadow-lg shadow-black/10 dark:shadow-black/40 text-black dark:text-white";
+  "rounded-xl border border-slate-300 bg-white dark:bg-neutral-900 dark:border-neutral-700 p-4 shadow-lg shadow-black/10 dark:shadow-black/40 text-black dark:text-white";
 
 const localDate = new Intl.DateTimeFormat("en-CA"); // timezone device, format YYYY-MM-DD
 const subscribe = () => () => {};

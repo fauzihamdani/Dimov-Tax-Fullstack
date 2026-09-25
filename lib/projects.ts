@@ -7,6 +7,8 @@ export interface ProjectQuery {
   status?: string;
   assigned_to?: string;
   deadline_month?: string;
+  budget_min?: string;
+  budget_max?: string;
   page?: string;
   page_size?: string;
 }
@@ -30,6 +32,12 @@ function applyFilters(query: any, q: ProjectQuery) {
     const [y, m] = q.deadline_month.split("-").map(Number);
     const next = m === 12 ? `${y + 1}-01` : `${y}-${String(m + 1).padStart(2, "0")}`;
     query = query.gte("deadline", `${q.deadline_month}-01`).lt("deadline", `${next}-01`);
+  }
+  if (q.budget_min && !isNaN(Number(q.budget_min))) {
+    query = query.gte("budget", Number(q.budget_min));
+  }
+  if (q.budget_max && !isNaN(Number(q.budget_max))) {
+    query = query.lte("budget", Number(q.budget_max));
   }
   return query;
 }

@@ -43,9 +43,6 @@ export default function LoginPage() {
       },
     });
     console.log("OAuth response:", data, error);
-    alert(`OAuth response: data => ${data}` );
-    alert(`OAuth response: error => ${error}` );
-    // alert('test login !')
   };
 
   return (

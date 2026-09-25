@@ -69,7 +69,7 @@ export default function ProjectModal({ isOpen, onClose, onSave, initialData, tea
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
             className="w-full border rounded px-3 py-2 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
-            placeholder="Nama project"
+            placeholder="Project Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required

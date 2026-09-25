@@ -45,11 +45,11 @@ function getDeadlineInfo(deadline: string) {
 function getStatusBadge(status: string) {
   switch (status) {
     case "active":
-      return "border border-green-600 text-black dark:text-white bg-transparent";
+      return "bg-blue-600 text-white font-bold border border-blue-600";
     case "on hold":
-      return "bg-red-600 text-white border border-red-600";
+      return "bg-red-600 text-white font-bold border border-red-600";
     case "completed":
-      return "bg-green-600 text-white border border-green-600";
+      return "bg-green-600 text-white font-bold border border-green-600";
     default:
       return "";
   }
