@@ -6,6 +6,7 @@ import { Project, ProjectStatus } from "@/types/project";
 import { TeamMember } from "@/types/team-member";
 import ProjectTable from "./ProjectTable";
 import ProjectModal from "./ProjectModal";
+import DeleteModal from "./DeleteModal";
 import { MIN_PAGE_SIZE, MAX_PAGE_SIZE } from "@/lib/constans";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -43,6 +44,9 @@ export default function DashboardClient({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Project | null>(null);
+
+  const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [isPending, startTransition] = useTransition();
   const [exportOpen, setExportOpen] = useState(false);
@@ -119,11 +123,17 @@ export default function DashboardClient({
     router.refresh();
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this project?")) return;
-    await fetch(`/api/projects/${id}`, { method: "DELETE" });
-    router.refresh();
-  };
+    const handleConfirmDelete = async () => {
+        if (!deleteTarget) return;
+        setDeleteLoading(true);
+        try {
+        await fetch(`/api/projects/${deleteTarget.id}`, { method: "DELETE" });
+        setDeleteTarget(null);
+        router.refresh();
+        } finally {
+        setDeleteLoading(false);
+        }
+    };
 
   const handleConfirmFilter = () => {
     updateParams({
@@ -488,7 +498,7 @@ export default function DashboardClient({
                   setEditing(p);
                   setModalOpen(true);
                 }}
-                onDelete={handleDelete}
+                onDelete={(p) => setDeleteTarget(p)}
                 page={page}
                 pageSize={pageSize}
               />
@@ -552,6 +562,13 @@ export default function DashboardClient({
         onSave={handleSave}
         initialData={editing}
         teamMembers={teamMembers}
+      />
+      <DeleteModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        projectName={deleteTarget?.name}
+        loading={deleteLoading}
       />
     </main>
   );

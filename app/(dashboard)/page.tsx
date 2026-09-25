@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { getProjects, getProjectStats, ProjectQuery } from "@/lib/projects";
 import DashboardClient from "@/components/DashboardClient";
 import DashboardStats from "@/components/DashboardStats";
+import ChatWidget from "@/components/ChatWidget";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,7 @@ export default async function DashboardPage({
         page={page}
         pageSize={pageSize}
       />
+      <ChatWidget />
     </>
     
   );

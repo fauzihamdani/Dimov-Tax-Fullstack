@@ -7,7 +7,7 @@ import { Pencil, Trash2 } from "lucide-react";
 interface Props {
   projects: Project[];
   onEdit: (p: Project) => void;
-  onDelete: (id: string) => void;
+  onDelete: (p: Project) => void;
   page: number;
   pageSize: number;
 
@@ -113,7 +113,7 @@ export default function ProjectTable({ projects, onEdit, onDelete, page, pageSiz
                     <Pencil size={16} />
                   </button>
                   <button
-                    onClick={() => onDelete(p.id)}
+                    onClick={() => onDelete(p)}
                     title="Delete"
                     className="text-red-600 hover:text-red-800"
                   >
