@@ -72,7 +72,7 @@ export default function ChatWidget() {
         {
           role: "assistant",
           content:
-            "Maaf, terjadi kesalahan saat menghubungi server. Coba lagi sebentar lagi.",
+            "Sorry, an error occurred while connecting to the server. Please try again in a moment.",
         },
       ]);
     } finally {
