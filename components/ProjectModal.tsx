@@ -85,13 +85,13 @@ export default function ProjectModal({ isOpen, onClose, onSave, initialData, tea
           </select>
           <input
             type="date"
-            className="w-full border rounded px-3 py-2 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
+            className="w-full border border-slate-300 rounded px-3 py-1.5 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
             required
           />
           <select
-            className="w-full border rounded px-3 py-2 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
+            className="w-full border border-slate-300 rounded px-3 py-1.5 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
             value={assignedTo}
             onChange={(e) => setAssignedTo(e.target.value)}
             required
@@ -103,27 +103,27 @@ export default function ProjectModal({ isOpen, onClose, onSave, initialData, tea
           </select>
           <input
             type="number"
-            className="w-full border rounded px-3 py-2 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
+            className="w-full border border-slate-300 rounded px-3 py-1.5 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
             placeholder="Budget"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
             required
           />
           <textarea
-            className="w-full border rounded px-3 py-2 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
+            className="w-full border border-slate-300 rounded px-3 py-1.5 bg-white dark:bg-neutral-800 text-black dark:text-white border-gray-300 dark:border-neutral-600"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
           />
           <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded border text-black dark:text-white">
+            <button type="button" onClick={onClose} className="px-4 py-1.5 rounded border text-black dark:text-white">
                 Cancel
             </button>
             <button
                 type="submit"
                 disabled={saving}
-                className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-50 flex items-center gap-2"
+                className="px-4 py-1.5 rounded bg-blue-600 text-white disabled:opacity-50 flex items-center gap-2"
             >
                 {saving && (
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />

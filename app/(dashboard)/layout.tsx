@@ -1,4 +1,5 @@
 import LogoutButton from "@/components/LogoutButton";
+import { ToggleButton } from "@/components/ToggleButton";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,8 +9,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <h1 className="text-center text-lg font-bold tracking-wide text-black dark:text-white">
           DASHBOARD
         </h1>
-        <div className="flex justify-end">
-          <LogoutButton />
+        
+        <div className="flex gap-15 justify-end">
+           <ToggleButton/> <LogoutButton />
         </div>
       </header>
       {children}

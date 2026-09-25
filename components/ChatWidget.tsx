@@ -163,7 +163,7 @@ export default function ChatWidget() {
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
             {messages.length === 0 && (
               <p className="text-xs text-gray-400">
-                Tanya tentang data project — contoh: "project status active apa saja?"
+                Ask about project data — for example: "Which projects have an 'active' status?"
               </p>
             )}
 
@@ -213,7 +213,7 @@ export default function ChatWidget() {
                       ) : (
                         <Download size={13} />
                       )}
-                      Download sebagai Excel
+                      Download as Excel
                     </button>
                   </div>
                 )}
@@ -224,7 +224,7 @@ export default function ChatWidget() {
               <div className="text-left">
                 <div className="inline-flex items-center gap-1.5 rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-500 dark:bg-neutral-800">
                   <Loader2 size={13} className="animate-spin" />
-                  Mengetik...
+                  Typing...
                 </div>
               </div>
             )}
@@ -236,7 +236,7 @@ export default function ChatWidget() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               rows={1}
-              placeholder="Tanya data project..."
+              placeholder="Ask about project data"
               className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
             />
             <button
