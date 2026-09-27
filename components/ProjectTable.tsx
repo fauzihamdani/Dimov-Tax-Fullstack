@@ -126,7 +126,7 @@ export default function ProjectTable({ projects, onEdit, onDelete, page, pageSiz
           {(projects ?? []).length === 0 && (
             <tr>
               <td colSpan={6} className="text-center py-6 text-gray-400">
-                Belum ada project
+                There are no projects yet
               </td>
             </tr>
           )}
